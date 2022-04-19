@@ -1,26 +1,26 @@
-# rangenet_docker
-Docker container with all dependencies to be able to work with RangeNet++
+# RangeNet++ Docker
 
-## Dependencias
+Docker container with all dependencies to be able to work with RangeNet++. This container have Ubuntu 10.04, cuda 10.1 and TensorRT 5.1.
 
-* Docker
+## Dependencies
 
-* TensorRT 5.1
+* [Docker](https://docs.docker.com/engine/install/ubuntu)
 
+## Installation
 
-## Instalación
+[TensorRT 5.1](https://developer.nvidia.com/nvidia-tensorrt-5x-download) must be downloaded from the official NVIDIA website. The appropriate file is: *nv-tensorrt-repo-ubuntu1804-cuda10.1-trt5.1.5.0-ga-20190427_1-1_amd64.deb*. This file must be placed in this directory, along with the Dockerfile.
 
-Es importante descargar el TensorRT de la página oficial de NVIDIA y colocarlo en éste directorio, junto al fichero Dockerfile.
-
-## USO
+## Building
 
 ```
 DOCKER_BUILDKIT=1 docker build -t rangenet_cuda .
 ```
 
-Una vez tengamos la imagen creada, para iniciar el contenedor emplearemos el siguiente comando:
+## Usage
 
-* Versión mínima
+Once we have the image created, to start the container we will use the following command:
+
+* Minimal configuration version
 
 ```
 docker run --rm -it --gpus all \
@@ -28,7 +28,7 @@ docker run --rm -it --gpus all \
 rangenet_cuda
 ```
 
-* Version con configuración completa
+* Full configuration version
 ```
 xhost +local: && \
 docker run --gpus all -it --rm \
@@ -40,3 +40,6 @@ docker run --gpus all -it --rm \
 --privileged \
 rangenet_cuda
 ```
+
+
+
