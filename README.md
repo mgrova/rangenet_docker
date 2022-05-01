@@ -15,13 +15,20 @@ Docker container with all dependencies to be able to test the inference of Range
 * To run the demo, you need a pre-trained model, which can be downloaded here, [model](https://www.ipb.uni-bonn.de/html/projects/semantic_suma/darknet53.tar.gz). 
 As the previous file, place the unzipped folder in the current directory.
 
-## Building
+## Usage
 
+---
+
+For simplicity of use, the **scripts/run.sh** script is used to install the necessary dependencies, create the image and run the container.
+
+### Building
+
+The docker image is created as follows:
 ```
 DOCKER_BUILDKIT=1 docker build -t rangenet_cuda -f test_infer.Dockerfile .
 ```
 
-## Usage
+### Running the container
 
 Once we have the image created, to start the container we will use the following command:
 
@@ -34,6 +41,7 @@ rangenet_cuda
 ```
 
 * Full configuration version
+  
 ```
 xhost +local: && \
 docker container run -it --rm \
@@ -51,6 +59,8 @@ docker container run -it --rm \
         rangenet_cuda
 ```
 
+### Working inside the container
+
 Inside the docker container you must run the following command to test the inference:
 
 ```
@@ -61,8 +71,15 @@ The result should look like the one shown in the following image:
 
 ![demo_rangener](docs/demo_infer.png)
 
----
+To test the training pipeline, it is necessary to download the [Semantic KITTI](http://semantic-kitti.org/dataset.html) dataset and labels.
+Once downloaded and placed in the working directory, the following commands must be executed inside the container:
 
-# Coming soon the container to train the model
+```
+cd /home/user/lidar-bonnetal/train/tasks/semantic 
+/visualize.py -d /home/user/workdir/semantic_kitti/data_odometry_velodyne/dataset/ -s 00
+```
 
-![coming_soon](https://media.giphy.com/media/26BRLGB7eWATEI1Ik/giphy.gif)
+```
+cd /home/user/lidar-bonnetal/train/tasks/semantic 
+./train.py -d /home/user/workdir/semantic_kitti/data_odometry_velodyne/dataset -ac config/arch/darknet21.yaml -l /home/user/workdir/logs/
+```

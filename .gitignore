@@ -1,2 +1,3 @@
 *.deb
 darknet*/
+semantic_kitti/*

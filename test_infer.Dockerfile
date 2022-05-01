@@ -19,15 +19,16 @@ RUN rm /etc/apt/sources.list.d/cuda.list && \
 
 RUN rm -r /var/nv-tensorrt-repo-${TENSORRTVER}
 
-RUN apt-get install -yqq build-essential python-dev python-pip python-empy nano \
-                         apt-utils git cmake libboost-all-dev libyaml-cpp-dev libopencv-dev \
-                         ninja-build python3-dev python3-pip unzip autoconf autogen \
-                         libtool mlocate zlib1g-dev python3-numpy python3-wheel wget \
-                         software-properties-common openjdk-8-jdk libpng-dev \
-                         libxft-dev ffmpeg python3-pyqt5.qtopengl && \
+RUN apt-get install -yqq build-essential nano apt-utils git cmake wget \
+                         libboost-all-dev libyaml-cpp-dev libopencv-dev \
+                         ninja-build unzip autoconf autogen libtool \
+                         python-dev python3-dev python-pip python3-pip \
+                         python-empy python3-pyqt5.qtopengl python3-numpy python3-wheel python3-tk \
+                         mlocate zlib1g-dev libxft-dev ffmpeg \
+                         software-properties-common openjdk-8-jdk libpng-dev && \
     updatedb && \
     sed -i 's/# set linenumbers/set linenumbers/g' /etc/nanorc && \
-    apt-get clean  && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install catkin_tools trollius numpy
@@ -39,6 +40,6 @@ RUN mkdir -p rangenet_ws/src && cd rangenet_ws/src && \
     cd .. && catkin init && \
     catkin build rangenet_lib
 
-RUN git clone https://github.com/PRBonn/lidar-bonnetal && \
+RUN git clone https://github.com/PRBonn/lidar-bonnetal.git && \
     cd lidar-bonnetal/train && \
     pip3 install -r requirements.txt
