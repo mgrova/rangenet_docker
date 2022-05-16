@@ -1,3 +1,4 @@
 *.deb
 darknet*/
 semantic_kitti/*
+shared_folder/*

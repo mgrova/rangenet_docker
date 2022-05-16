@@ -42,6 +42,7 @@ USER ${USER}
 WORKDIR /home/${USER}
 RUN sed -i 's/#force_color_prompt=yes/force_color_prompt=yes/g' ~/.bashrc
 
+# Download rangenet++ infer and training pipelines
 RUN mkdir -p rangenet_ws/src && cd rangenet_ws/src && \
     git clone https://github.com/PRBonn/rangenet_lib.git && \
     git clone https://github.com/ros/catkin.git && \

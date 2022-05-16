@@ -14,7 +14,7 @@ if [ "" = "$PKG_OK" ]; then
 fi
 
 # Check if image is already created
-CONTAINER_EXISTS=$(docker images | grep rangenet_cuda)
+CONTAINER_EXISTS=$(docker images | grep rangenet_cuda:latest)
 if [ -z "$CONTAINER_EXISTS" ] 
 then
     echo "Creating docker image ..."
