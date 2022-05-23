@@ -21,14 +21,16 @@ As the previous file, place the unzipped folder in the **shared_folder** directo
 
 For simplicity of use, the **scripts/run.sh** script is used to install the necessary dependencies, create the image and run the container.
 
+If you want to use the ROS version, use the following script: **scripts/run_ros.sh**.
+
 ## Working inside the container
 
-### Test inference library
+### Test inference library (without ROS version)
 
 Inside the docker container you must run the following command to test the inference:
 
 ```
-./rangenet_ws/devel/lib/rangenet_lib/infer -p /home/user/shared_folder/darknet53 -s /home/user/rangenet_ws/src/rangenet_lib/example/000000.bin --verbose
+./rangenet_lib/build/examples/simple_infer -p /home/user/shared_folder/darknet53 -s /home/user/rangenet_lib/examples/simple_infer/000000.bin --verbose
 ```
 
 The result should look like the one shown in the following image:

@@ -14,17 +14,17 @@ if [ "" = "$PKG_OK" ]; then
 fi
 
 # Check if image is already created
-CONTAINER_EXISTS=$(docker images | grep rangenet_cuda:latest)
+CONTAINER_EXISTS=$(docker images | grep rangenet_cuda:ros)
 if [ -z "$CONTAINER_EXISTS" ] 
 then
     echo "Creating docker image ..."
-    DOCKER_BUILDKIT=1 docker build -t rangenet_cuda:latest -f $PARENT_DIR/train_infer.Dockerfile .
+    DOCKER_BUILDKIT=1 docker build -t rangenet_cuda:ros -f $PARENT_DIR/ros_infer.Dockerfile .
 fi
 
 # Create container
 xhost +local: && \
 docker container run -it --rm \
-        --name rangenet \
+        --name rangenet_ros \
         --gpus all \
         --security-opt apparmor:unconfined \
         --ipc host \
@@ -35,4 +35,4 @@ docker container run -it --rm \
         --volume "$XAUTH:$XAUTH" \
         --volume "/tmp/.X11-unix:/tmp/.X11-unix" \
         --volume $PARENT_DIR/shared_folder:/home/user/shared_folder \
-        rangenet_cuda:latest
+        rangenet_cuda:ros

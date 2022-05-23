@@ -29,26 +29,21 @@ RUN apt-get install -yqq build-essential nano apt-utils git cmake wget sudo \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-## \note. This is not totally safe, pip must be done without sudo privileges
-RUN pip install catkin_tools trollius numpy 
-
 # Create Default user and its password.
 ARG USER=user
 ARG PASS=rangenet
 
-RUN useradd -rm -d /home/${USER} -s /bin/bash -g root -G sudo -u 1001 ${USER} \
+RUN useradd --create-home --shell /bin/bash ${USER} \
             -p "$(openssl passwd -1 ${PASS})"
 USER ${USER}
 WORKDIR /home/${USER}
 RUN sed -i 's/#force_color_prompt=yes/force_color_prompt=yes/g' ~/.bashrc
 
-# Download rangenet++ infer and training pipelines
-RUN mkdir -p rangenet_ws/src && cd rangenet_ws/src && \
-    git clone https://github.com/PRBonn/rangenet_lib.git && \
-    git clone https://github.com/ros/catkin.git && \
-    cd .. && catkin init && \
-    catkin build rangenet_lib
-
 RUN git clone https://github.com/PRBonn/lidar-bonnetal.git && \
     cd lidar-bonnetal/train && \
     pip3 install -r requirements.txt
+
+# Download rangenet++ infer and training pipelines
+RUN git clone -b master https://github.com/mgrova/rangenet_lib.git && \
+    cd rangenet_lib && mkdir build && cd build && \
+    cmake .. && make -j4
