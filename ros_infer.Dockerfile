@@ -33,15 +33,16 @@ RUN apt-get install -yqq build-essential nano apt-utils git cmake wget sudo curl
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add - && \
     apt-get update -y && \
-    apt-get install -y ros-melodic-ros-base && \
+    apt-get install -y ros-melodic-ros-base ros-melodic-pcl-ros ros-melodic-pcl-conversions && \
     rm -rf /var/lib/apt/lists/*
 
 # Create Default user and its password.
 ARG USER=user
 ARG PASS=rangenet
 
-RUN useradd --create-home --shell /bin/bash ${USER} \
-            -p "$(openssl passwd -1 ${PASS})"
+RUN useradd --create-home --shell /bin/bash ${USER} \ 
+            --password "$(openssl passwd -1 ${PASS})" && \
+            usermod -aG sudo ${USER}
 USER ${USER}
 WORKDIR /home/${USER}
 RUN sed -i 's/#force_color_prompt=yes/force_color_prompt=yes/g' ~/.bashrc && \
@@ -51,7 +52,7 @@ SHELL ["/bin/bash", "-c"]
 
 RUN git clone https://github.com/PRBonn/lidar-bonnetal.git && \
     cd lidar-bonnetal/train && \
-    pip3 install -r requirements.txt
+    pip3 install --no-cache-dir -r requirements.txt
 
 # Download rangenet++ infer and training pipelines
 RUN mkdir -p rangenet_ws/src && cd rangenet_ws/src && \

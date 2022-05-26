@@ -39,7 +39,6 @@ The result should look like the one shown in the following image:
 
 ### Test training library
 
-
 To test the training pipeline, it is necessary to download the [Semantic KITTI](http://semantic-kitti.org/dataset.html) dataset and labels.
 Once downloaded and placed in the working directory, the following commands must be executed inside the container:
 

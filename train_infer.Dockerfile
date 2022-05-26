@@ -41,7 +41,7 @@ RUN sed -i 's/#force_color_prompt=yes/force_color_prompt=yes/g' ~/.bashrc
 
 RUN git clone https://github.com/PRBonn/lidar-bonnetal.git && \
     cd lidar-bonnetal/train && \
-    pip3 install -r requirements.txt
+    pip3 install --no-cache-dir -r requirements.txt
 
 # Download rangenet++ infer and training pipelines
 RUN git clone -b master https://github.com/mgrova/rangenet_lib.git && \
