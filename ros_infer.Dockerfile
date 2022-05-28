@@ -50,11 +50,7 @@ RUN sed -i 's/#force_color_prompt=yes/force_color_prompt=yes/g' ~/.bashrc && \
 
 SHELL ["/bin/bash", "-c"]
 
-RUN git clone https://github.com/PRBonn/lidar-bonnetal.git && \
-    cd lidar-bonnetal/train && \
-    pip3 install --no-cache-dir -r requirements.txt
-
-# Download rangenet++ infer and training pipelines
+# Download rangenet++ infer
 RUN mkdir -p rangenet_ws/src && cd rangenet_ws/src && \
     git clone -b ros https://github.com/mgrova/rangenet_lib.git && \
     cd .. && source /opt/ros/melodic/setup.bash && catkin_make
