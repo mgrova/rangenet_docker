@@ -23,7 +23,7 @@ fi
 
 # Create container
 xhost +local: && \
-docker container run -it --rm \
+docker container run -d -it --rm \
         --name rangenet \
         --gpus all \
         --security-opt apparmor:unconfined \
@@ -36,3 +36,5 @@ docker container run -it --rm \
         --volume "/tmp/.X11-unix:/tmp/.X11-unix" \
         --volume $PARENT_DIR/shared_folder:/home/user/shared_folder \
         rangenet_cuda:latest
+
+docker exec -it rangenet /bin/bash

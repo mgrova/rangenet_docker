@@ -19,7 +19,11 @@ As the previous file, place the unzipped folder in the **shared_folder** directo
 
 ---
 
-For simplicity of use, the **scripts/run.sh** script is used to install the necessary dependencies, create the image and run the container.
+For simplicity of use, the **scripts/run.sh** script is used to install the necessary dependencies, create the image and run the container. Note that this container will run in detached mode so that it can remain running in the background on a remote server.  That is why, once the container is running, the following command will be used to open a new terminal:
+```
+docker ps -a #To ensute thar container still alive
+docker exec -it rangenet /bin/bash
+```
 
 If you want to use the ROS version, use the following script: **scripts/run_ros.sh**.
 
@@ -44,10 +48,28 @@ Once downloaded and placed in the working directory, the following commands must
 
 ```
 cd /home/user/lidar-bonnetal/train/tasks/semantic 
-/visualize.py -d /home/user/shared_folder/semantic_kitti/data_odometry_velodyne/dataset/ -s 00
+./visualize.py -d /home/user/shared_folder/datasets/semantic_kitti/dataset/ -s 00
 ```
 
+### Training the model
+
+To run the training, the use of tmux is recommended. By using a session, you can leave the training running in the background. To detach the session and leave it running in background, press the following key combination: <kbd>ctrl</kbd> <kbd>b</kbd> + <kbd>d</kbd>.
+
 ```
-cd /home/user/lidar-bonnetal/train/tasks/semantic 
-./train.py -d /home/user/shared_folder/semantic_kitti/data_odometry_velodyne/dataset -ac config/arch/darknet21.yaml -l /home/user/shared_folder/logs/
+tmux attach || tmux new -s rangenet_train
+cd /home/user/lidar-bonnetal/train/tasks/semantic
+./train.py -d /home/user/shared_folder/datasets/semantic_kitti/dataset/ -ac /home/user/shared_folder/config_files/semantic_kitti_arch/darknet21.yaml -l /home/user/shared_folder/logs/
 ```
+
+To re-attach the session, the following command shall be used:
+```
+tmux list-session # To ensure that session still alive
+tmux attach-session rangenet_train
+```
+
+If you want to display the results in tensorboard, you must run the following command in a new terminal inside the docker container:
+
+```
+python3 -m tensorboard.main --logdir /home/user/shared_folder/logs --host 0.0.0.0
+```
+
