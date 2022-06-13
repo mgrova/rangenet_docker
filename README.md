@@ -1,6 +1,6 @@
 # RangeNet++ Docker
 
-Docker container with all dependencies to be able to test the inference of RangeNet++ with C++ and TensorRT. This container have the following code inside https://github.com/PRBonn/rangenet_lib
+Docker container with all dependencies to be able to test the inference of RangeNet++ with C++ and TensorRT. This container have the following code inside https://github.com/PRBonn/lidar-bonnetal and https://github.com/mgrova/rangenet_lib
 
 
 ## Dependencies
